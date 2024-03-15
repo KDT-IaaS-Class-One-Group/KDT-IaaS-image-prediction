@@ -1,2 +1,5 @@
+# .gitignore
+
 .fast/
 .env
+__pycache__/
