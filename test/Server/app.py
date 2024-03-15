@@ -8,4 +8,4 @@ app = FastAPI()
 def read_root():
     return {"Greet": "Hello, FastAPI!"}
 
-# 실행 명령: uvicorn app:app --reload
+# 실행 명령: uvicorn app:app --reload --port 8000
