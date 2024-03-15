@@ -1,5 +1,11 @@
 # .gitignore
 
-.fast/
+# 환경변수
 .env
+
+# 가상환경
+.fast/
+.model/
+
+# FastAPI
 __pycache__/
