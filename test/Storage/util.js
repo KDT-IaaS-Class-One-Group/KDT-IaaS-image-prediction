@@ -25,3 +25,4 @@ function ObjectsInBucketCRUD(operation, fileName) {
 ObjectsInBucketCRUD("create", "test.txt");
 ObjectsInBucketCRUD("read", "test.txt");
 ObjectsInBucketCRUD("delete", "test.txt");
+ObjectsInBucketCRUD("update", "test.txt");
