@@ -15,7 +15,8 @@ const ImageUploadForm: React.FC = () => {
 
     const response = await fetch("http://localhost:8000/check", {
       method: "POST",
-      body: formData,
+      body: formData, // 이미지 파일과 메타데이터를 포함
+      // 'Content-Type': 'multipart/form-data' 헤더는 자동으로 설정됩니다.
     });
 
     if (response.ok) {
