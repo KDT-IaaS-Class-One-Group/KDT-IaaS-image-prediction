@@ -1,6 +1,4 @@
-import dotenv from 'dotenv';
-dotenv.config();
-
+require('dotenv').config();
 
 const dbConfig = {
   host: process.env.DB_HOST || '',
@@ -9,4 +7,4 @@ const dbConfig = {
   database: process.env.DB_NAME || '',
 };
 
-export default dbConfig;
+module.exports = dbConfig;
