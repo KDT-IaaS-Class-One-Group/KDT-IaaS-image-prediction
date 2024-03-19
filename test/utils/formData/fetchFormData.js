@@ -13,12 +13,12 @@ async function fetchFormData(url, formData) {
       body: formData,
     });
     if (!response.ok) {
-      throw new Error(`Server responded with ${response.status}: ${response.statusText}`);
+      throw new Error(`서버가 ${response.status} 오류를 반환했습니다: ${response.statusText}`);
     }
     return await response.json();
   } catch (error) {
-    console.error('Error in fetchFormData:', error);
-    throw error; // 에러를 다시 throw하여 호출자가 처리할 수 있게 합니다.
+    console.error('fetchFormData에서 오류 발생:', error);
+    throw new Error('데이터 전송 중 오류가 발생했습니다.'); // 에러를 다시 throw하여 호출자가 처리할 수 있게 합니다.
   }
 }
 
