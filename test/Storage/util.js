@@ -7,8 +7,21 @@
  */
 function ObjectsInBucketCRUD(operation, fileName) {
   if (operation === "create") {
-    console.log(`선택한 내용을 아래에서 확인하세요. \n작동 모드: ${operation} / 파일명: ${fileName}`);
+    console.log(`${operation} 실행 -> ${fileName}`)
+  }
+  else if (operation === "read") {
+    console.log(`${operation} 실행 -> ${fileName}`)
+
+  }
+  else if (operation === "delete") {
+    console.log(`${operation} 실행 -> ${fileName}`)
+
+  }
+  else {
+    console.log("잘못된 작동 모드입니다. JSDoc의 설명에 맞게 다시 시도해보세요.");
   }
 }
 
 ObjectsInBucketCRUD("create", "test.txt");
+ObjectsInBucketCRUD("read", "test.txt");
+ObjectsInBucketCRUD("delete", "test.txt");
