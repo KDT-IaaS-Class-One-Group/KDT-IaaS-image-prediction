@@ -23,7 +23,8 @@
 ```
 python -m venv fastapitest // 생성
 .\fastapitest\Scripts\activate // 입장
-pip install -r requirements.txt //
+pip freeze > requirements.txt // requirements를 갱신
+pip install -r requirements.txt // requirements.txt에 따라 설치
 pip install fastapi uvicorn[standard] // fast api, uvicorn(비동기) 설치
 pip install mysql-connector-python // mariadb 연결 드라이버
 pip install boto3 // aws sdk for python
