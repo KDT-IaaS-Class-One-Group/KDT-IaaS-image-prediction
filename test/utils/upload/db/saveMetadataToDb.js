@@ -1,6 +1,6 @@
 // CommonJS 스타일의 모듈 시스템을 사용할 경우
 const mysql = require('mysql2/promise');
-const dbConfig = require('./dbConfig'); // dbConfig 모듈 불러오기
+const dbConfig = require('../../Config/dbConfig'); // dbConfig 모듈 불러오기
 
 async function saveMetadataToDb(file_name, file_size, content_type, s3_url) {
   const connection = await mysql.createConnection(dbConfig);
