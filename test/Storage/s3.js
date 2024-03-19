@@ -15,6 +15,23 @@ const s3 = new AWS.S3({
   region: process.env.AWS_REGION
 });
 
+// S3 버킷 리스트 조회 함수
+function listObjectsInBucket(bucketName) {
+  return new Promise((resolve, reject) => {
+    const params = {
+      Bucket: bucketName
+    };
+
+    s3.listObjects(params, (err, data) => {
+      if (err) {
+        reject(err);
+      } else {
+        resolve(data.Contents);
+      }
+    });
+  });
+}
+
 // 서버를 5555번 포트로 실행
 const PORT = 5555;
 app.listen(PORT, () => {
