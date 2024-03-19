@@ -15,10 +15,10 @@ async function uploadFileToS3(filePath, fileName, contentType) {
   try {
     const command = new PutObjectCommand(uploadParams);
     const response = await s3Client.send(command);
-    console.log('Successfully uploaded file to S3:', response);
+    console.log('S3에 파일이 업로드 되었습니다:', response);
     return `https://${process.env.S3_BUCKET}.s3.${process.env.AWS_REGION}.amazonaws.com/upload/${datedFileName}`;
   } catch (error) {
-    console.error('Error uploading file to S3:', error);
+    console.error('S3업로드에 실패 하였습니다:', error);
     throw error;
   }
 }
