@@ -22,7 +22,7 @@ function ObjectsInBucketCRUD(operation, fileName) {
   }
 }
 
-ObjectsInBucketCRUD("create", "test.txt");
-ObjectsInBucketCRUD("read", "test.txt");
-ObjectsInBucketCRUD("delete", "test.txt");
-ObjectsInBucketCRUD("update", "test.txt");
+ObjectsInBucketCRUD("create", "test.txt"); // create 실행 -> test.txt
+ObjectsInBucketCRUD("read", "test.txt"); // read 실행 -> test.txt
+ObjectsInBucketCRUD("delete", "test.txt"); // delete 실행 -> test.txt
+ObjectsInBucketCRUD("update", "test.txt"); // 잘못된 작동 모드입니다. JSDoc의 설명에 맞게 다시 시도해보세요.
