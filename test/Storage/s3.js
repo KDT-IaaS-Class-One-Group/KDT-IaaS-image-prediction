@@ -32,6 +32,18 @@ function listObjectsInBucket(bucketName) {
   });
 }
 
+// GET 엔드포인트 생성
+app.get('/bhn-s3', async (req, res) => {
+  try {
+    const bucketName = process.env.S3_BUCKET_NAME;
+    const objects = await listObjectsInBucket(bucketName);
+    res.json(objects);
+  } catch (error) {
+    console.error("Error listing objects in S3 bucket:", error);
+    res.status(500).json({ error: "Failed to list objects in S3 bucket" });
+  }
+});
+
 // 서버를 5555번 포트로 실행
 const PORT = 5555;
 app.listen(PORT, () => {
