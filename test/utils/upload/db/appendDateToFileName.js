@@ -4,3 +4,5 @@ function appendDateToFileName(file_name, uploadDate = new data()) {
   const newFileName = `${datePart}_${fileName}`;
   return newFileName;
 }
+
+module.exports = appendDateToFileName;
