@@ -9,3 +9,8 @@
 
 # FastAPI
 __pycache__/
+
+# 필요 설치 관련 next가 아닌 것들
+node_modules
+package-lock.json
+package.json
