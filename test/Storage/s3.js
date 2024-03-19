@@ -6,7 +6,7 @@ const dotenv = require('dotenv');
 const AWS = require('aws-sdk');
 
 // 환경변수 로드
-dotenv.config();
+dotenv.config({path: "../../.env"});
 
 // AWS S3 설정
 const s3 = new AWS.S3({
@@ -14,7 +14,6 @@ const s3 = new AWS.S3({
   secretAccessKey: process.env.AWS_SECRET_ACCESS_KEY,
   region: process.env.AWS_REGION
 });
-
 
 // 서버를 5555번 포트로 실행
 const PORT = 5555;
