@@ -6,7 +6,6 @@ const UploadPage: React.FC = () => {
     event.preventDefault();
     const fileField = document.querySelector('input[type="file"]');
 
-    // fileField가 null이 아닌지 확인
     if (!fileField || !(fileField instanceof HTMLInputElement) || !fileField.files) {
       console.error('파일 입력 필드를 찾을 수 없거나, 파일이 선택되지 않았습니다.');
       return;
@@ -15,8 +14,9 @@ const UploadPage: React.FC = () => {
     const formData = new FormData();
     formData.append('file', fileField.files[0]);
 
+    // 서버의 주소와 포트 번호를 URL에 명시적으로 포함
     try {
-      const data = await fetchFormData('/api/upload', formData);
+      const data = await fetchFormData('http://localhost:5555/api/upload', formData);
       console.log('파일이 성공적으로 업로드되었습니다:', data);
     } catch (error) {
       console.error('파일 업로드 중 오류가 발생했습니다:', error);
