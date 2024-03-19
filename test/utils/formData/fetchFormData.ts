@@ -5,7 +5,7 @@
  * @param {FormData} formData - 서버로 전송할 FormData 객체
  * @returns {Promise<any>} 서버로부터의 응답 JSON 객체
  */
-async function fetchFormData(url, formData) {
+async function fetchFormData(url: string, formData: FormData): Promise<Record<string, unknown>> {
   try {
     const response = await fetch(url, {
       method: 'POST',
