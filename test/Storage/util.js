@@ -2,11 +2,16 @@
 
 /**
  * @function ObjectsInBucketCRUD - 버킷 내 객체의 생성, 조회, 삭제를 수행하는 유틸 함수
- * @param {string} operation - create, read, delete
+ * @param {string} operation - create, read, update, delete
  * @param {string} fileName - 파일명
+ * @throws {Error} operation이 잘못된 경우 에러를 throw
  */
 function ObjectsInBucketCRUD(operation, fileName) {
-  if (operation === "create") {
+  const allowedOperations = ["create", "read", "update", "delete"];
+  
+  if (allowedOperations.includes(operation) == false) {
+    throw new Error("잘못된 작동 모드입니다. JSDoc의 설명에 맞게 다시 시도해보세요.");
+  }  else if (operation === "create") {
     console.log(`${operation} 실행 -> ${fileName}`)
 
     const AWS = require('aws-sdk');
@@ -22,7 +27,7 @@ function ObjectsInBucketCRUD(operation, fileName) {
     const params = {
       Bucket: process.env.S3_BUCKET_NAME,
       Key: fileName,
-      Body: "something"
+      Body: "something" // fixme: 작성자 ID 등을 기입하도록 수정?
     };
 
     s3.putObject(params, (err, data) => {
@@ -32,19 +37,19 @@ function ObjectsInBucketCRUD(operation, fileName) {
         console.log("객체가 성공적으로 생성되었습니다.", data);
       }
     });
+  } else if (operation === "read") {
+    console.log(`${operation} 실행 -> ${fileName}`)
+
+    // todo 조회 메서드 추가
+  } else if (operation === "update") {
+
+    // todo 수정 메서드 추가
+  } else if (operation === "delete") {
+    console.log(`${operation} 실행 -> ${fileName}`)
     
-  }
-  else if (operation === "read") {
-    console.log(`${operation} 실행 -> ${fileName}`)
-
-  }
-  else if (operation === "delete") {
-    console.log(`${operation} 실행 -> ${fileName}`)
-
-  }
-  else {
-    console.log("잘못된 작동 모드입니다. JSDoc의 설명에 맞게 다시 시도해보세요.");
+    // todo 삭제 메서드 추가
   }
 }
 
-ObjectsInBucketCRUD("create", "test.txt");
+ObjectsInBucketCRUD("create", "new.txt");
+ObjectsInBucketCRUD("update", "new.txt");
