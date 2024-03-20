@@ -21,4 +21,4 @@ async function saveMetadataToDb(file_name, file_size, content_type, s3_url) {
   }
 }
 
-module.exports = saveMetadataToDb;
+module.exports = { saveMetadataToDb };
