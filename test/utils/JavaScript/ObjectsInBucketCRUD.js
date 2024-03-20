@@ -83,11 +83,12 @@ function ObjectsInBucketCRUD(operation, fileName) {
       Bucket: process.env.S3_BUCKET_NAME,
       Key: fileName
     };
-
+    // 객체가 존재하는지 확인
     s3.headObject(params, (err, metadata) => {
       if (err) {
         console.log("객체가 존재하지 않습니다.")
       } else {
+        // 객체가 존재하면 삭제
         s3.deleteObject(params, (err, data) => {
           if (err) {
             console.log("객체 삭제 중 오류 발생:", err);
