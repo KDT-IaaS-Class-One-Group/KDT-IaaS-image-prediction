@@ -1,9 +1,9 @@
-require('dotenv').config({ path: '../../.env' });
+require('dotenv').config({ path: '../../../.env' });
 const { PutObjectCommand } = require('@aws-sdk/client-s3');
 const s3Client = require('../../Config/s3Config');
 const appendDateToFileName = require('./appendDateToFileName');
 const fs = require('fs');
-const bucketName = process.env.S3_BUCKET_NAME;
+const bucketName = process.env.S3_BUCKET;
 console.log(bucketName);
 
 async function uploadFileToS3(filePath, fileName, contentType) {
