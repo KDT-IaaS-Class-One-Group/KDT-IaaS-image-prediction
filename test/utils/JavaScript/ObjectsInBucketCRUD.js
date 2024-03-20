@@ -1,4 +1,4 @@
-// test/Storage/util.js
+// test/utils/JavaScript/ObjectsInBucketCRUD.js
 
 /**
  * @function ObjectsInBucketCRUD - 버킷 내 객체의 생성, 조회, 삭제를 수행하는 유틸 함수
