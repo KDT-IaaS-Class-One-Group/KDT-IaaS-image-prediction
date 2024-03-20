@@ -6,6 +6,7 @@ const dotenv = require("dotenv");
 const AWS = require("aws-sdk");
 const bodyParser = require("body-parser");
 const cors = require("cors");
+const multer = require("multer");
 
 // 환경변수 로드
 dotenv.config({ path: "../../.env" });
@@ -17,18 +18,21 @@ const s3 = new AWS.S3({
   region: process.env.AWS_REGION,
 });
 
+// multer 설정
+const upload = multer();
+
 // 미들웨어 설정
 app.use(cors({ origin: "http://localhost:3000" }));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 
 // 이미지 업로드 라우트
-app.post("/upload", (req, res) => {
-  if (!req.body || !req.body.image) {
+app.post("/upload", upload.single('image'), (req, res) => {
+  if (!req.file) {
     return res.status(400).json({ error: "이미지가 제공되지 않았습니다." });
   }
 
-  const imageData = req.body.image;
+  const imageData = req.file.buffer; // multer로 파싱된 이미지 데이터
 
   // S3에 업로드할 파일 설정
   const params = {
