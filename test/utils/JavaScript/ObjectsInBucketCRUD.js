@@ -76,13 +76,8 @@ function ObjectsInBucketCRUD(operation, fileName) {
         region: process.env.AWS_REGION
       }
     );
-    const params = {
-      Bucket: process.env.S3_BUCKET_NAME,
-      Key: fileName,
-      Body: "updated data"
-    };
-
-    const listParams = {
+      // 객체 목록 조회를 위한 파라미터
+      const listParams = {
       Bucket: process.env.S3_BUCKET_NAME,
       Prefix: fileName
     };
@@ -96,10 +91,11 @@ function ObjectsInBucketCRUD(operation, fileName) {
         if (data.Contents.length > 0) {
           console.log("객체가 존재합니다. 업데이트를 진행합니다.");
 
+          // 객체 업데이트를 위한 파라미터
           const updateParams = {
             Bucket: process.env.S3_BUCKET_NAME,
             Key: fileName,
-            Body: "updated data" // 새로운 데이터로 업데이트합니다.
+            Body: "updated data" // 새로운 데이터로 업데이트
           };
 
           // 객체 업데이트
