@@ -23,4 +23,4 @@ async function uploadFileToS3(filePath, fileName, contentType) {
   }
 }
 
-module.exports = uploadFileToS3;
+module.exports = { uploadFileToS3 };
