@@ -103,4 +103,5 @@ function ObjectsInBucketCRUD(operation, fileName) {
 
 // ObjectsInBucketCRUD("create", "new.txt");
 // ObjectsInBucketCRUD("read", "new.txt");
-ObjectsInBucketCRUD("delete", "new1.txt"); // 객체가 존재하지 않습니다.
+// ObjectsInBucketCRUD("delete", "new1.txt"); // 객체가 존재하지 않습니다.
+ObjectsInBucketCRUD("delete", "new.txt"); // 객체가 성공적으로 삭제되었습니다.
