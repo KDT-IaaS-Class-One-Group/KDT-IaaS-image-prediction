@@ -38,3 +38,5 @@ async def get_table_names():
 
 if __name__ == "__main__":
     uvicorn.run(app, host="0.0.0.0", port=8001)
+
+# 실행 명령: uvicorn db:app --reload --port 8001
