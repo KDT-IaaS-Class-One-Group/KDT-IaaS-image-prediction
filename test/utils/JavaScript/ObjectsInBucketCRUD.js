@@ -112,44 +112,53 @@ function ObjectsInBucketCRUD(operation, fileName) {
       }
     });
 
-  } else if (operation === "delete") {
+  } else if (operation === "delete") {    
     console.log(`${operation} 실행 -> ${fileName}`)
-    
-    const AWS = require('aws-sdk');
-    const dotenv = require('dotenv');
-    dotenv.config({path: "../../../.env"});
-    const s3 = new AWS.S3(
-      {
-        accessKeyId: process.env.AWS_ACCESS_KEY_ID,
-        secretAccessKey: process.env.AWS_SECRET_ACCESS_KEY,
-        region: process.env.AWS_REGION
-      }
-    );
-    const params = {
-      Bucket: process.env.S3_BUCKET_NAME,
-      Key: fileName
-    };
-    // 객체가 존재하는지 확인
-    s3.headObject(params, (err, metadata) => {
-      if (err) {
-        console.log("객체가 존재하지 않습니다.")
-      } else {
-        // 객체가 존재하면 삭제
-        s3.deleteObject(params, (err, data) => {
+
+  const AWS = require('aws-sdk');
+  const dotenv = require('dotenv');
+  dotenv.config({path: "../../../.env"});
+  const s3 = new AWS.S3(
+    {
+      accessKeyId: process.env.AWS_ACCESS_KEY_ID,
+      secretAccessKey: process.env.AWS_SECRET_ACCESS_KEY,
+      region: process.env.AWS_REGION
+    }
+  );
+    // 객체 목록 조회를 위한 파라미터
+    const listParams = {
+    Bucket: process.env.S3_BUCKET_NAME,
+    Prefix: fileName
+  };
+
+  // 객체가 존재하는지 확인
+  s3.listObjects(listParams, (err, data) => {
+    if (err) {
+      console.log("객체 목록 조회 중 오류 발생:", err);
+    } else {
+      // 존재하면 업데이트를 진행
+      if (data.Contents.length > 0) {
+        console.log("객체가 존재합니다. 객체 삭제를 진행합니다.");
+
+        // 객체 삭제를 위한 파라미터
+        const deleteParams = {
+          Bucket: process.env.S3_BUCKET_NAME,
+          Key: fileName,
+        };
+
+        // 객체 업데이트
+        s3.deleteObject(deleteParams, (err, data) => {
           if (err) {
             console.log("객체 삭제 중 오류 발생:", err);
           } else {
-            console.log("객체가 성공적으로 삭제되었습니다.", data)
+            console.log("객체가 성공적으로 삭제되었습니다.", data);
           }
-        })
+        });
+      } else {
+        console.log("객체가 존재하지 않습니다.");
       }
-    })
+    }
+  });
+
   }
 }
-
-// ObjectsInBucketCRUD("create", "new.txt");
-// ObjectsInBucketCRUD("read", "new.txt");
-// ObjectsInBucketCRUD("delete", "new1.txt"); // 객체가 존재하지 않습니다.
-// ObjectsInBucketCRUD("delete", "new.txt"); // 객체가 성공적으로 삭제되었습니다.
-// ObjectsInBucketCRUD("update", "new.txt"); // 객체가 존재하지 않습니다.
-ObjectsInBucketCRUD("update", "test.txt"); // 객체가 존재합니다. 업데이트를 진행합니다.
