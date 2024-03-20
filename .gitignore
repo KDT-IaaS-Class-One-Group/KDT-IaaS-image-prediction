@@ -1,0 +1,13 @@
+# .gitignore
+
+# 모듈
+node_modules/
+
+# 환경변수
+.env
+
+# 가상환경
+.venv/
+
+# FastAPI
+__pycache__/
