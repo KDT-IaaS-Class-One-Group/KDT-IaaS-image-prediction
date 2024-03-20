@@ -11,6 +11,7 @@ const port = 5555;
 app.use(cors());
 
 app.post('/api/upload', upload.single('file'), async (req, res) => {
+  console.log('/api/upload 엔드포인트에 요청이 도착했습니다.');
   const file = req.file;
   const datedFileName = appendDateToFileName(file.originalname); // 파일명에 업로드 날짜 추가
   try {
