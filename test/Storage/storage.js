@@ -1,3 +1,4 @@
+require('dotenv').config({ path: '../.env' });
 const express = require('express');
 const multer = require('multer');
 const upload = multer({ dest: 'uploads/' });
