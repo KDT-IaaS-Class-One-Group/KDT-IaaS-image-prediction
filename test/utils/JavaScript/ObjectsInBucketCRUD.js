@@ -16,7 +16,7 @@ function ObjectsInBucketCRUD(operation, fileName) {
 
     const AWS = require('aws-sdk');
     const dotenv = require('dotenv');
-    dotenv.config({path: "../../.env"});
+    dotenv.config({path: "../../../.env"});
     const s3 = new AWS.S3(
       {
         accessKeyId: process.env.AWS_ACCESS_KEY_ID,
@@ -40,6 +40,29 @@ function ObjectsInBucketCRUD(operation, fileName) {
   } else if (operation === "read") {
     console.log(`${operation} 실행 -> ${fileName}`)
 
+    const AWS = require('aws-sdk');
+    const dotenv = require('dotenv');
+    dotenv.config({path: "../../../.env"});
+    const s3 = new AWS.S3(
+      {
+        accessKeyId: process.env.AWS_ACCESS_KEY_ID,
+        secretAccessKey: process.env.AWS_SECRET_ACCESS_KEY,
+        region: process.env.AWS_REGION
+      }
+    );
+    const params = {
+      Bucket: process.env.S3_BUCKET_NAME,
+      Key: fileName
+    };
+
+    s3.getObject(params, (err, data) => {
+      if (err) {
+        console.log("객체 조회 중 오류 발생:", err);
+      } else {
+        console.log("객체 조회 결과:", data);
+      }
+    });
+
     // todo 조회 메서드 추가
   } else if (operation === "update") {
 
@@ -51,5 +74,5 @@ function ObjectsInBucketCRUD(operation, fileName) {
   }
 }
 
-ObjectsInBucketCRUD("create", "new.txt");
-ObjectsInBucketCRUD("update", "new.txt");
+// ObjectsInBucketCRUD("create", "new.txt");
+ObjectsInBucketCRUD("read", "new.txt");
