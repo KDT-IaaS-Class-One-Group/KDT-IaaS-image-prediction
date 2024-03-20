@@ -5,6 +5,8 @@ import React, { useState } from 'react';
 function ImageUploadForm() {
   // 이미지 상태를 관리하는 useState 훅
   const [image, setImage] = useState<File | null>(null);
+  // 파일명 상태를 관리하는 useState 훅
+  const [filename, setFilename] = useState<string>("");
 
   // 이미지 선택 핸들러
   const handleImageChange = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -13,6 +15,12 @@ function ImageUploadForm() {
       // 선택된 이미지를 상태에 저장
       setImage(event.target.files[0]);
     }
+  };
+
+  // 파일명 입력 핸들러
+  const handleFilenameChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    // 사용자가 파일명을 입력하면 실행
+    setFilename(event.target.value);
   };
 
   // 이미지 업로드 핸들러
@@ -26,6 +34,7 @@ function ImageUploadForm() {
     // FormData 객체 생성
     const formData = new FormData();
     formData.append('image', image);
+    formData.append('filename', filename);
 
     try {
       // 이미지 업로드 요청
@@ -48,6 +57,8 @@ function ImageUploadForm() {
   return (
     <div>
       <input type="file" onChange={handleImageChange} />
+      <br />
+      <input type="text" value={filename} onChange={handleFilenameChange} placeholder="파일명을 입력하세요" />
       <button onClick={handleUploadImage}>이미지 업로드</button>
     </div>
   );
