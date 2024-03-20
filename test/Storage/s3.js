@@ -33,11 +33,12 @@ app.post("/upload", upload.single('image'), (req, res) => {
   }
 
   const imageData = req.file.buffer; // multer로 파싱된 이미지 데이터
+  const filename = req.body.filename; // 클라이언트에서 전달된 파일명
 
   // S3에 업로드할 파일 설정
   const params = {
     Bucket: process.env.S3_BUCKET_NAME,
-    Key: "unique_filename.jpg", // 파일 이름은 고유해야!
+    Key: filename,
     Body: imageData,
     ContentType: "image/jpeg", // 이미지 타입에 따라 변경
   };
