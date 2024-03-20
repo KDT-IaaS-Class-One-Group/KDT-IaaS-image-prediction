@@ -19,6 +19,9 @@ const UploadPage: React.FC = () => {
     try {
       const data = await fetchFormData('http://localhost:5555/api/upload', formData);
       console.log('파일이 성공적으로 업로드되었습니다:', data);
+      fileField.value = '';
+      // 업로드 성공 메시지 팝업
+      alert('파일이 성공적으로 업로드되었습니다.');
     } catch (error) {
       if (error instanceof TypeError && error.message === 'Failed to fetch') {
         console.error('네트워크 오류가 발생했습니다. 서버 연결을 확인하세요.');
