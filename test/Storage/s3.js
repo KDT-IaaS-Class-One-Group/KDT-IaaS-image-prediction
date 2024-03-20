@@ -5,6 +5,7 @@ const app = express();
 const dotenv = require("dotenv");
 const AWS = require("aws-sdk");
 const bodyParser = require("body-parser");
+const cors = require("cors");
 
 // 환경변수 로드
 dotenv.config({ path: "../../.env" });
@@ -17,6 +18,7 @@ const s3 = new AWS.S3({
 });
 
 // 미들웨어 설정
+app.use(cors({ origin: "http://localhost:3000" }));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 
@@ -30,7 +32,7 @@ app.post("/upload", (req, res) => {
 
   // S3에 업로드할 파일 설정
   const params = {
-    Bucket: env.AWS_BUCKET_NAME,
+    Bucket: process.env.S3_BUCKET_NAME,
     Key: "unique_filename.jpg", // 파일 이름은 고유해야!
     Body: imageData,
     ContentType: "image/jpeg", // 이미지 타입에 따라 변경
@@ -40,9 +42,7 @@ app.post("/upload", (req, res) => {
   s3.upload(params, (err, data) => {
     if (err) {
       console.error("S3 업로드 중 오류:", err);
-      return res
-        .status(500)
-        .json({ error: "이미지를 업로드하는 동안 오류가 발생했습니다." });
+      return res.status(500).json({ error: "이미지를 업로드하는 동안 오류가 발생했습니다." });
     }
     // 성공적으로 업로드된 경우 클라이언트에게 응답
     res.json({ imageUrl: data.Location });
