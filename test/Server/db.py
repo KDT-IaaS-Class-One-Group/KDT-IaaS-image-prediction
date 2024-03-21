@@ -13,6 +13,8 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
+
+# .env를 활용해도 좋다.
 db_config = {
     "host": "127.0.0.1",
     "port": "3306",

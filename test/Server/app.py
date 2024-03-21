@@ -13,7 +13,6 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
-
 @app.get("/")
 def read_root():
     print("Hello, FastAPI!")
@@ -28,7 +27,7 @@ async def get_table_names():
     return table_names
 
 @app.post("/check1")
-async def check_file_upload2(image: UploadFile = File(...)):
+async def check_file_upload(image: UploadFile = File(...)):
     # 파일 처리 로직...
     print(image)
     # 파일을 저장할 경로 설정
@@ -38,6 +37,8 @@ async def check_file_upload2(image: UploadFile = File(...)):
     with open(save_path, "wb") as f:
         content = await image.read()
         f.write(content)
+        
+    
 
     return {"message": "Image saved successfully"}
 
