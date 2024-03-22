@@ -18,9 +18,9 @@ s3 = boto3.client(
 # 버킷 내의 객체 조회
 response = s3.list_objects(Bucket=os.getenv("S3_BUCKET_NAME"))
 
-# 조회한 객체를 콘솔 출력
-for obj in response["Contents"]:
-    print(obj["Key"])
+# 조회한 객체를 변수로 선언
+objects = [obj["Key"] for obj in response["Contents"]]
+print(objects)
     
 # FastAPI 인스턴스 생성
 app = FastAPI()
