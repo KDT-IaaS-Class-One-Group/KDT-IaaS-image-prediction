@@ -40,6 +40,7 @@ const ImageUploadForm: React.FC = () => {
     const formData = new FormData();
     // 이미지 파일을 "image"라는 이름으로 추가
     formData.append("image", file);
+    console.log("formData - ", formData);
     // 서버로 POST 요청을 보냄
     const response = await fetch("http://localhost:8000/check", {
       // 이미지 파일과 메타데이터를 포함
@@ -58,7 +59,6 @@ const ImageUploadForm: React.FC = () => {
 
   return (
     <form onSubmit={handleSubmit}>
-      {/* 이미지 파일을 선택하는 input 요소 */}
       <input type="file" accept="image/*" onChange={handleFileChange} />
       {preview && <img src={preview} alt="preview" style={{ width: 300 }} />}
       <button type="submit">업로드</button>
