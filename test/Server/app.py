@@ -1,8 +1,6 @@
 from fastapi.middleware.cors import CORSMiddleware
-from fastapi import FastAPI, File, UploadFile, HTTPException
-from pydantic import BaseModel
-import httpx 
-import requests
+from fastapi import FastAPI, File, UploadFile
+import httpx
 
 # Server/app.py
 app = FastAPI()
@@ -29,73 +27,22 @@ async def get_table_names():
     table_names = response.json()  # JSON 데이터 추출
     return table_names
 
-# 파일 로컬 image파일에 저장
-@app.post("/check1")
+# 클라이언트로부터 이미지를 받아서 storage 서버로 전달하는 엔드포인트
+@app.post("/check")
 async def check_file_upload(image: UploadFile = File(...)):
-    # 파일 처리 로직...
-    print(image)
-    # 파일을 저장할 경로 설정
-    save_path = r"C:\Users\user\Desktop\k-digital\DEV\KDT-IaaS-image-prediction\test\Server\images\\" + image.filename
+    # 이미지를 받아옴
+    image_content = await image.read()
 
-    # 이미지 파일 저장
-    with open(save_path, "wb") as f:
-        content = await image.read()
-        f.write(content)
-        
-    
+    # storage 서버로 전송
+    storage_url = "http://localhost:8002/check"  # storage 서버의 엔드포인트 URL
+    files = {"image": (image.filename, image_content)}  # 이미지 파일을 담은 딕셔너리
+    print(files)
+    response = httpx.post(storage_url, files=files)  # storage 서버로 POST 요청 보냄
 
-    return {"message": "Image saved successfully"}
+    # storage 서버의 응답 반환
+    return response.json()
 
 
-# 이미지 데이터 전송 (base64 - json 이미지 데이터 전송)
-class ImageData(BaseModel):
-    imageData: str
-
-async def send_to_storage(image_data: ImageData):
-    # Storage 서버의 주소
-    storage_server_url = "대충 스토리지 서버 주소/이미지 저장"
-    
-    # Storage 서버로 이미지 데이터 전송
-    try:
-        storage_response = await requests.post(storage_server_url, json=image_data.dict())
-        storage_response.raise_for_status()  # HTTP 오류가 발생하면 예외를 발생시킴
-        return storage_response.json()
-    except Exception as e:
-        # 실패 시 롤백 로직을 추가할 수 있음
-        raise HTTPException(status_code=500, detail="Storage 서버에 이미지 전송 중 오류가 발생했습니다.") from e
-
-async def save_to_database(image_data: ImageData, storage_response: dict):
-    # DB 서버의 주소
-    db_server_url = "대충 스토리지 db 주소/메타데이터 저장"
-    
-    # DB 서버로 이미지 메타데이터 전송
-    try:
-        db_payload = {
-            "image_url": storage_response["image_url"],
-            "metadata": image_data.dict()
-        }
-        db_response = await requests.post(db_server_url, json=db_payload)
-        db_response.raise_for_status()  # HTTP 오류가 발생하면 예외를 발생시킴
-    except Exception as e:
-        # 실패 시 롤백 로직을 추가할 수 있음
-        # 여기서는 Storage 서버에 이미지를 삭제하는 등의 롤백 작업이 필요할 수 있음
-        raise HTTPException(status_code=500, detail="DB 서버에 메타데이터 저장 중 오류가 발생했습니다.") from e
-
-@app.post("/api/upload")
-async def upload_image(image_data: ImageData):
-    if image_data.imageData:
-        # 이미지 데이터를 확인하는 라우트
-        print("받은 이미지 데이터:", image_data.imageData)
-        
-        # Storage 서버로 이미지 데이터를 전달하는 라우트
-        storage_response = await send_to_storage(image_data)
-        
-        # DB 서버에 이미지 메타데이터를 저장하는 라우트
-        await save_to_database(image_data, storage_response)
-        
-        return {"message": "이미지가 성공적으로 업로드되었습니다.", "storage_response": storage_response}
-    else:
-        raise HTTPException(status_code=400, detail="이미지 데이터가 없습니다.")
 
 
 # 실행 명령: uvicorn app:app --reload --port 8000
