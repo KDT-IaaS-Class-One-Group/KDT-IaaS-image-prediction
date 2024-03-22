@@ -2,6 +2,7 @@
 from fastapi import FastAPI
 import boto3
 from dotenv import load_dotenv
+import os
 
 # 환경변수 로드
 load_dotenv()
@@ -14,6 +15,13 @@ s3 = boto3.client(
     region_name=os.getenv("AWS_REGION_NAME"),
 )
 
+# 버킷 내의 객체 조회
+response = s3.list_objects(Bucket=os.getenv("S3_BUCKET_NAME"))
+
+# 조회한 객체를 콘솔 출력
+for obj in response["Contents"]:
+    print(obj["Key"])
+    
 # FastAPI 인스턴스 생성
 app = FastAPI()
 
