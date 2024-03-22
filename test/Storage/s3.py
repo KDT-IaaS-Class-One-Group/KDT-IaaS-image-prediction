@@ -1,5 +1,5 @@
 # test/Storage/s3.py
-from fastapi import FastAPI
+from fastapi import FastAPI, UploadFile, File
 import boto3
 from dotenv import load_dotenv
 import os
@@ -31,9 +31,17 @@ def read_root():
     return {"Objects": objects}
 
 # 파일 업로드를 위한 라우트
-@app.get("/upload")
-def upload_file():
-    return {"Upload": "파일 업로드"}
+@app.post("/upload")
+# 파일 업로드 함수
+async def upload_file(file: UploadFile = File(...)):
+    # 파일을 업로드
+    with open(file.filename, "wb") as buffer:
+        # 파일을 읽어서 버퍼에 저장
+        buffer.write(await file.read())
+    # S3에 파일 업로드
+    upload_file(os.getenv("S3_BUCKET_NAME"), file.filename, file.filename)
+    # 업로드한 파일 이름을 반환
+    return {"filename": file.filename}
 
 # 서버를 5555번 포트로 실행
 if __name__ == "__main__":
