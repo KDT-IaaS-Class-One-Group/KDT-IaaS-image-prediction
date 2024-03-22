@@ -20,7 +20,6 @@ response = s3.list_objects(Bucket=os.getenv("S3_BUCKET_NAME"))
 
 # 조회한 객체를 변수로 선언
 objects = [obj["Key"] for obj in response["Contents"]]
-print(objects)
     
 # FastAPI 인스턴스 생성
 app = FastAPI()
@@ -28,7 +27,8 @@ app = FastAPI()
 # 루트 경로에 대한 라우트
 @app.get("/")
 def read_root():
-    return {"Greet": "Hello, FastAPI World!"}
+    # 조회한 객체 반환
+    return {"Objects": objects}
 
 # 파일 업로드를 위한 라우트
 @app.get("/upload")
