@@ -1,12 +1,11 @@
+# 가상환경을 넘어 루트 디렉토리 경로 설정
+
+import set_root_directory
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 import uvicorn
 import mysql.connector
-
-
-from utils.config import dbconfig
-# db_config 변수를 사용하여 데이터베이스 연결 설정을 가져옵니다.
-db_config = dbconfig.db_config
+from utils.config.dbconfig import db_config
 
 app = FastAPI()
 
@@ -17,8 +16,6 @@ app.add_middleware(
     allow_methods=["GET", "POST", "PUT", "DELETE"],
     allow_headers=["*"],
 )
-
-
 
 
 mydb = mysql.connector.connect(**db_config)
