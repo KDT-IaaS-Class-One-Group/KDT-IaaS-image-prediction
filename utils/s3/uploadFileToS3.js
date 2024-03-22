@@ -7,6 +7,7 @@ const bucketName = process.env.S3_BUCKET;
 
 async function uploadFileToS3(filePath, fileName, contentType) {
   const datedFileName = appendDateToFileName(fileName); // 파일명에 날짜 추가
+  // fs.createReadStream() 함수를 사용하여 filePath에서 파일 스트림을 생성합니다.
   const fileStream = fs.createReadStream(filePath);
   const uploadParams = {
     Bucket: bucketName,
@@ -16,6 +17,12 @@ async function uploadFileToS3(filePath, fileName, contentType) {
   };
 
   try {
+    /**
+     * AWS SDK의 PutObjectCommand 객체입니다.
+     * S3 버킷에 파일을 업로드하는 역할을 합니다.
+     *
+     * @type {PutObjectCommand}
+     */
     const command = new PutObjectCommand(uploadParams);
     await s3Client.send(command);
     console.log("S3에 파일이 업로드 되었습니다:", datedFileName);
