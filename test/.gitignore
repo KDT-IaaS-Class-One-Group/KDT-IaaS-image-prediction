@@ -6,6 +6,7 @@
 # 가상환경
 .fast/
 .model/
+venv
 
 # FastAPI
 __pycache__/
