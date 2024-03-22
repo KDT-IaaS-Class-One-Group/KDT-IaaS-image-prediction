@@ -21,8 +21,8 @@
 # 관련 명령어 정리
 
 ```
-python -m venv fastapitest // 생성
-.\fastapitest\Scripts\activate // 입장
+python -m venv venv // 생성
+.\venv\Scripts\activate // 입장
 pip freeze > requirements.txt // requirements를 갱신
 pip install -r requirements.txt // requirements.txt에 따라 설치
 pip install fastapi uvicorn[standard] // fast api, uvicorn(비동기) 설치
@@ -33,6 +33,6 @@ pip install httpx // httpx - FastAPI 의존성, http 클라이언트 라이브�
 (main.py 생성)
 
 uvicorn main:app --reload // 애플리케이션 시작
-uvicorn main:app --host 0.0.0.0 --port 8000 --reload
+uvicorn app:app --host 0.0.0.0 --port 8000 --reload
 uvicorn db:app --host 0.0.0.0 --port 8001 --reload
 ```
