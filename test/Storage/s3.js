@@ -51,6 +51,7 @@ app.post("/upload", upload.single('image'), (req, res) => {
     }
     // 성공적으로 업로드된 경우 클라이언트에게 응답
     res.json({ imageUrl: data.Location });
+    console.log("S3 업로드 성공:", data.Location);
   });
 });
 
