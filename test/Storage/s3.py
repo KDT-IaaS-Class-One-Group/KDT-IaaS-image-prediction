@@ -1,5 +1,6 @@
 # test/Storage/s3.py
 from fastapi import FastAPI, UploadFile, File
+from fastapi.middleware.cors import CORSMiddleware
 import boto3
 from dotenv import load_dotenv
 import os
@@ -23,6 +24,19 @@ objects = [obj["Key"] for obj in response["Contents"]]
     
 # FastAPI 인스턴스 생성
 app = FastAPI()
+
+# CORS 설정
+origins = [
+    "http://localhost:3000", # Next App
+]
+
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=origins,
+    allow_credentials=True,
+    allow_methods=["*"],
+    allow_headers=["*"],
+)
 
 # 루트 경로에 대한 라우트
 @app.get("/")
