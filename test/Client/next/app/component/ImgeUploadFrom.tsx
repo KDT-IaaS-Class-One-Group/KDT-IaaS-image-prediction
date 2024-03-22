@@ -42,7 +42,7 @@ const ImageUploadForm: React.FC = () => {
     formData.append("image", file);
     console.log("formData - ", formData);
     // 서버로 POST 요청을 보냄
-    const response = await fetch("http://localhost:8000/check", {
+    const response = await fetch("http://localhost:8000/uploadfile/", {
       // 이미지 파일과 메타데이터를 포함
       method: "POST",
       //  'Content-Type': 'multipart/form-data' 헤더는 자동으로 설정됨
