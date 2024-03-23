@@ -62,8 +62,12 @@ async def upload_file(image: UploadFile = File(...), filename: str = Form(...)):
     # 업로드가 성공하면 임시 파일 삭제
     os.remove(filename)
     
-    # 업로드한 이미지 파일 이름을 반환
-    return {"filename": filename}
+    # 업로드한 이미지 URL 생성
+    url = f"https://{os.getenv('S3_BUCKET_NAME')}.s3.{os.getenv('AWS_REGION')}.amazonaws.com/{filename}"
+    
+    # 업로드한 이미지의 URL을 반환
+    print(url) # 서버 콘솔 확인
+    return {"url": url}
 
 # 서버를 5555번 포트로 실행
 if __name__ == "__main__":
