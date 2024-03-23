@@ -1,5 +1,5 @@
 # test/Storage/s3.py
-from fastapi import FastAPI, UploadFile, File
+from fastapi import FastAPI, UploadFile, File, Form
 from fastapi.middleware.cors import CORSMiddleware
 import boto3
 from dotenv import load_dotenv
@@ -47,17 +47,22 @@ def read_root():
 # 파일 업로드를 위한 라우트
 @app.post("/upload")
 # 파일 업로드 함수
-async def upload_file(file: UploadFile = File(...)):
-    # 파일을 업로드
-    with open(file.filename, "wb") as buffer:
+async def upload_file(image: UploadFile = File(...), filename: str = Form(...)):
+    # 이미지 파일 업로드
+    with open(filename, "wb") as buffer:
         # 파일을 읽어서 버퍼에 저장
-        buffer.write(await file.read())
-    # S3에 파일 업로드
-    upload_file(os.getenv("S3_BUCKET_NAME"), file.filename, file.filename)
-    # 업로드한 파일 이름을 반환
-    return {"filename": file.filename}
+        buffer.write(await image.read())
+    # 이미지를 S3에 업로드
+    s3.upload_file(
+        Bucket=os.getenv("S3_BUCKET_NAME"),
+        Filename=filename,
+        Key=filename,
+    )
+    
+    # 업로드한 이미지 파일 이름을 반환
+    return {"filename": filename}
 
 # 서버를 5555번 포트로 실행
 if __name__ == "__main__":
     import uvicorn
-    uvicorn.run(app, host="localhost", port=5555)
+    uvicorn.run(app, host="localhost", port=5555)   
