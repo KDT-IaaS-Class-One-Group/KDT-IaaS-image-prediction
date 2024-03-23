@@ -59,6 +59,9 @@ async def upload_file(image: UploadFile = File(...), filename: str = Form(...)):
         Key=filename,
     )
     
+    # 업로드가 성공하면 임시 파일 삭제
+    os.remove(filename)
+    
     # 업로드한 이미지 파일 이름을 반환
     return {"filename": filename}
 
