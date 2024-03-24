@@ -52,11 +52,23 @@ async def upload_file(image: UploadFile = File(...), filename: str = Form(...)):
     with open(filename, "wb") as buffer:
         # 파일을 읽어서 버퍼에 저장
         buffer.write(await image.read())
+    
+    # 파일의 확장자 확인
+    _, ext = os.path.splitext(filename)
+    # 확장자에 따라 ContentType 설정
+    if ext.lower() in [".png"]:
+        content_type = "image/png"
+    elif ext.lower() in [".jpg", ".jpeg"]:
+        content_type = "image/jpeg"
+    else:
+        content_type = "application/octet-stream"  # 기본값
+    
     # 이미지를 S3에 업로드
     s3.upload_file(
         Bucket=os.getenv("S3_BUCKET_NAME"),
         Filename=filename,
         Key=filename,
+        ExtraArgs={'ContentType': content_type}  # ContentType 설정
     )
     
     # 업로드가 성공하면 임시 파일 삭제
