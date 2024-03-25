@@ -22,6 +22,7 @@ def read_root():
     return {"Greet": "Hello, FastAPI World!"}
 
 # 엔드 포인트 설정 및 확인
+# /db
 @app.get("/db")
 def read_db():
     try:
@@ -30,6 +31,18 @@ def read_db():
             cursor.execute("SELECT * FROM test")
             tests = cursor.fetchall()
         return tests
+    except Exception as e:
+        return {"error": str(e)}
+
+# /db/imageMeta
+@app.get("/db/imageMeta")
+def read_imageMeta():
+    try:
+        with db.cursor() as cursor:
+          # imageMeta 테이블 조회
+          cursor.execute("SELECT * FROM imageMeta")
+          imageMeta = cursor.fetchall()
+          return imageMeta
     except Exception as e:
         return {"error": str(e)}
 
