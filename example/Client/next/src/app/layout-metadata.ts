@@ -16,6 +16,10 @@ interface LayoutMetadata {
       backgroundColor: string;
     };
   };
+  text: {
+    anchor : string;
+    paragraph : string;
+  }
 }
 
 /**
@@ -41,6 +45,10 @@ const layoutMetadata: LayoutMetadata = {
       backgroundColor: "ghostwhite",
     },
   },
+  text: {
+    anchor : "To Home",
+    paragraph : "footer"
+  }
 };
 
 export default layoutMetadata;
