@@ -7,7 +7,9 @@ node_modules/
 .env
 
 # 가상환경
-.venv/
+.fast/
+.model/
 
 # FastAPI
 __pycache__/
+team_server
