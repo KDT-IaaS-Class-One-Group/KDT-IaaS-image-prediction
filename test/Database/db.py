@@ -21,6 +21,18 @@ cursor = db.cursor(pymysql.cursors.DictCursor)
 def read_root():
     return {"Greet": "Hello, FastAPI World!"}
 
+# 엔드 포인트 설정 및 확인
+@app.get("/db")
+def read_db():
+    try:
+        with db.cursor() as cursor:
+            # test 테이블 조회
+            cursor.execute("SELECT * FROM test")
+            tests = cursor.fetchall()
+        return tests
+    except Exception as e:
+        return {"error": str(e)}
+
 # 서버를 7777번 포트로 실행
 if __name__ == "__main__":
     import uvicorn
