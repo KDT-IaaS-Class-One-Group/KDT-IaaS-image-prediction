@@ -15,10 +15,19 @@ import Footer from "../../components/atoms/Footer";
 import Paragraph from "../../components/atoms/Paragraph";
 
 const inter = Inter({ subsets: ["latin"] });
+/**
+ * point
+ * 1. layoutMetadata 객체를 가져와서, 해당 객체의 key와 value를 분해하여 사용한다.
+ * 2. layoutMetadata 객체의 key와 value는 '어떻게 변할지' 예측하기 어렵기 때문에, 해당 파일과 같이 일원화 하면 관리하기 매우 편하다.
+ * 3. 구조분해 할당을 통해, 객체의 key와 value를 분해하여 사용한다.(호출 부분에서 길어지므로)
+ */
+const { title:defaultTitle, description:defaultDescription, language:defaultLanguage } = layoutMetadata.default;
+const { padding:stylePadding, header:styleHeader , footer:styleFooter } = layoutMetadata.style
+const { anchor:textAnchor, paragraph:textFooter } = layoutMetadata.text
 
 export const metadata: Metadata = {
-  title: layoutMetadata.default.title,
-  description: layoutMetadata.default.description
+  title: defaultTitle,
+  description: defaultDescription,
 };
 
 export default function RootLayout({
@@ -27,16 +36,16 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en">
+    <html lang={defaultLanguage}>
       <body className={inter.className}>
-        <Header style={{ ...layoutMetadata.style.header, padding: layoutMetadata.style.padding }}>
+        <Header style={{ ...styleHeader, padding: stylePadding }}>
           <H1>
-            <Anchor href="/">layoutMetadata.text.anchor</Anchor>
+            <Anchor href="/">textAnchor</Anchor>
           </H1>
         </Header>
         <Main>{children}</Main>
-        <Footer style={{ ...layoutMetadata.style.footer, padding: layoutMetadata.style.padding }}>
-          <Paragraph> layoutMetadata.text.footer</Paragraph>
+        <Footer style={{ ...styleFooter, padding: stylePadding }}>
+          <Paragraph> textFooter</Paragraph>
         </Footer>
       </body>
     </html>
