@@ -18,10 +18,25 @@ const FetchTable = () => {
       .then((response) => response.json())
       .then((data) => {
         const formattedData: ImageMeta[] = data.map((item: any[]) => {
+          // 한국 시간으로 변환
+          const uploadDatetime = new Date(item[2]);
+          const koreanDatetime = new Intl.DateTimeFormat("ko-KR", {
+            year: "numeric",
+            month: "2-digit",
+            day: "2-digit",
+            hour12: false, // 24시간 형식 채택
+            hour: "2-digit",
+            minute: "2-digit",
+            weekday: "short"
+          }).format(uploadDatetime);
+
+          // 날짜와 시간 사이에 공백을 추가
+          const [date, time] = koreanDatetime.split(" ");
+          
           return {
             id: item[0], // 고유번호
             file_name: item[1], // 파일명
-            upload_datetime: item[2], // 업로드 일시
+            upload_datetime: koreanDatetime, // 업로드 일시
             extension: item[3], // 확장자
             src: item[4], // 이미지 객체 URL
           };
