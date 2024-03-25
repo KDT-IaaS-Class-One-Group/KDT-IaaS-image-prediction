@@ -1,5 +1,6 @@
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi import FastAPI, File, UploadFile
+from fastapi.responses import JSONResponse
 
 # Server.py
 app = FastAPI()
@@ -30,6 +31,6 @@ async def check_file_upload(image: UploadFile = File(...)):
         content = await image.read()
         f.write(content)
 
-    return {"message": "Image saved successfully"}
-  
+    return JSONResponse(content={"message": "Image saved successfully"})
+
 # 실행 명령: uvicorn server:app --reload --port 8002
