@@ -19,11 +19,11 @@ const FetchTable = () => {
       .then((data) => {
         const formattedData: ImageMeta[] = data.map((item: any[]) => {
           return {
-            id: item[0],
-            file_name: item[1],
-            upload_datetime: item[2],
-            extension: item[3],
-            src: item[4],
+            id: item[0], // 고유번호
+            file_name: item[1], // 파일명
+            upload_datetime: item[2], // 업로드 일시
+            extension: item[3], // 확장자
+            src: item[4], // 이미지 객체 URL
           };
         });
         setData(formattedData);
@@ -31,28 +31,33 @@ const FetchTable = () => {
   }, []);
 
   return (
-    <table>
-      <thead>
-        <tr>
-          <th>고유번호</th>
-          <th>파일명</th>
-          <th>업로드</th>
-          <th>확장자</th>
-          <th>URL</th>
-        </tr>
-      </thead>
-      <tbody>
-        {data.map((row: ImageMeta) => (
-          <tr key={row.id}>
-            <td>{row.id}</td>
-            <td>{row.file_name}</td>
-            <td>{row.upload_datetime}</td>
-            <td>{row.extension}</td>
-            <td>{row.src}</td>
-          </tr>
-        ))}
-      </tbody>
-    </table>
+    <div style={{ display: "flex", flexDirection: "column" }}>
+      <div style={{ display: "flex" }}>
+        <div style={{ flex: 1 }}>고유번호</div>
+        <div style={{ flex: 3 }}>파일명</div>
+        <div style={{ flex: 3 }}>업로드 일시</div>
+        <div style={{ flex: 1 }}>확장자</div>
+        <div style={{ flex: 2 }}>이미지 객체 URL</div>
+      </div>
+      {data.map((row: ImageMeta) => (
+        <div key={row.id} style={{ display: "flex" }}>
+          <div style={{ flex: 1 }}>{row.id}</div>
+          <div style={{ flex: 3 }}>{row.file_name}</div>
+          <div
+            style={{
+              flex: 3,
+              overflow: "hidden",
+              textOverflow: "ellipsis",
+              whiteSpace: "nowrap",
+            }}
+          >
+            {row.upload_datetime}
+          </div>
+          <div style={{ flex: 1 }}>{row.extension}</div>
+          <div style={{ flex: 2 }}>{row.src}</div>
+        </div>
+      ))}
+    </div>
   );
 };
 
