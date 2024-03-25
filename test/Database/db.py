@@ -1,10 +1,24 @@
 # Database/db.py
 
 from fastapi import FastAPI
+from fastapi.middleware.cors import CORSMiddleware
 import pymysql
 
 # FastAPI 인스턴스 생성
 app = FastAPI()
+
+# CORS 설정
+origins = [
+    "http://localhost:3000", # Next App
+]
+
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=origins,
+    allow_credentials=True,
+    allow_methods=["*"],
+    allow_headers=["*"],
+)
 
 # MariaDB 연결 설정
 db = pymysql.connect(
