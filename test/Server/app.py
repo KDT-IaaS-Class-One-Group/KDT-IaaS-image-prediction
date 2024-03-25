@@ -28,20 +28,10 @@ async def get_table_names():
     return table_names
 
 # 클라이언트에서 이미지를 받아서 storage에 저장하고 저장되면 DB에 저장하는 트랜젝션을 활용한 엔드포인트
-@app.post("/upload-image-and-save-to-db")
+@app.post("/upload_image_and_save_to_db")
 async def upload_image_and_save_to_db(image: UploadFile = File(...)):
-    try:
-        # 이미지를 받아옴
-        image_content = await image.read()
-
-        # * storage 서버로 전송
-        storage_url = "http://localhost:8002/check"  # storage 서버의 엔드포인트 URL
-        files = {"image": (image.filename, image_content)}  # 이미지 파일을 담은 딕셔너리
-        response = httpx.post(storage_url, files=files)  # storage 서버로 POST 요청 보냄
-        print("storage : " + response.json())
-        response.raise_for_status()  # 오류 발생 시 예외를 일으킴
-
-        # * 이미지 파일의 메타데이터 추출
+    # try:
+         # * 이미지 파일의 메타데이터 추출
         print(image)
         
         # image_metadata = {
@@ -51,7 +41,16 @@ async def upload_image_and_save_to_db(image: UploadFile = File(...)):
         #     "filesize": image.filesize,
         # }
         # print(image_metadata)
+        # 이미지를 받아옴
         
+        # * storage 서버로 전송
+        image_content = await image.read()
+        storage_url = "http://localhost:8002/check"  # storage 서버의 엔드포인트 URL
+        files = {"image": (image.filename, image_content)}  # 이미지 파일을 담은 딕셔너리
+        response = httpx.post(storage_url, files=files)  # storage 서버로 POST 요청 보냄
+        print("storage : " + response.json())
+        response.raise_for_status()  # 오류 발생 시 예외를 일으킴
+
         # * DB에 이미지 메타데이터 저장
         # db_url = "http://localhost:8001/save-image-metadata"  # DB 서버의 엔드포인트 URL
         # db_response = httpx.post(db_url, json=image_metadata)  # DB 서버로 POST 요청 보냄
@@ -59,8 +58,8 @@ async def upload_image_and_save_to_db(image: UploadFile = File(...)):
 
         return {"message": "이미지가 성공적으로 업로드되고 메타데이터가 DB에 저장되었습니다."}
 
-    except Exception as e:
-        raise HTTPException(status_code=500, detail=f"이미지 업로드 및 메타데이터 저장에 실패했습니다: {e}")
+    # except Exception as e:
+    #     raise HTTPException(status_code=500, detail=f"이미지 업로드 및 메타데이터 저장에 실패했습니다: {e}")
 
 # 클라이언트로부터 이미지를 받아서 storage 서버로 전달하는 엔드포인트
 @app.post("/check")

@@ -6,7 +6,6 @@ from fastapi import FastAPI, HTTPException
 from fastapi.middleware.cors import CORSMiddleware
 import uvicorn
 import mysql.connector
-from pydantic import BaseModel
 
 app = FastAPI()
 
@@ -20,20 +19,6 @@ app.add_middleware(
 
 mydb = mysql.connector.connect(**db_config)
 
-#이미지 메타데이터를 저장하기 위한 요청 바디 모델
-class ImageMetadata(BaseModel):
-    """
-    Represents the metadata of an image.
-    
-    Attributes:
-        filename (str): The name of the image file.
-        filepath (str): The path of the image file.
-        filesize (int): The size of the image file in bytes.
-    """
-    filename: str
-    filepath: str
-    filesize: int
-    
 
 @app.get('/')
 async def read_root():
@@ -41,7 +26,7 @@ async def read_root():
 
 # 이미지 메타데이터를 저장하는 라우트 함수
 @app.post("/save-image-metadata")
-async def save_image_metadata(image_metadata:ImageMetadata):
+async def save_image_metadata(image_metadata):
     try:
         # 여기서는 받은 데이터를 그대로 출력하는 예시 코드를 작성하였음
         print("Received image metadata:", image_metadata.dict())
