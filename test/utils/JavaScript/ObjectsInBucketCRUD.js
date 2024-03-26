@@ -153,3 +153,19 @@ function ObjectsInBucketCRUD(operation, fileName) {
     });
   }
 }
+
+
+/**
+ * @function initS3 - AWS S3 객체를 초기화하는 함수
+ * @param {*} envConfig - 환경 변수 객체
+ * @returns {Object} - AWS S3 객체
+ */
+function initS3(envConfig) {
+  const AWS = require("aws-sdk");
+  const s3 = new AWS.S3({
+    accessKeyId: envConfig.AWS_ACCESS_KEY_ID,
+    secretAccessKey: envConfig.AWS_SECRET_ACCESS_KEY,
+    region: envConfig.AWS_REGION,
+  });
+  return s3;
+}
