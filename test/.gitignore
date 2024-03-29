@@ -3,6 +3,9 @@
 # 모듈
 node_modules/
 
+# next.js
+/example/
+
 # 환경변수
 .env
 
